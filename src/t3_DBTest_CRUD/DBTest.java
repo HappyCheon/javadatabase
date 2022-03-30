@@ -1,4 +1,4 @@
-package t2_DBTest;
+package t3_DBTest_CRUD;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -87,7 +87,7 @@ public class DBTest {
 	public void dbClose() {
 		try {
 			conn.close();
-			System.out.println("DB를 닫았습니다.");
+			//System.out.println("DB를 닫았습니다.");
 		} catch (Exception e) {}
 	}
 }
