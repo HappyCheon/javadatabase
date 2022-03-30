@@ -14,6 +14,8 @@ public class DBTestDAO {
 	
 	String sql = "";
 	
+	DBTestVO vo = new DBTestVO();
+	
 	// 처음 DAO생성시에 Database 연결한다.
 	public DBTestDAO() {
 		try {
@@ -92,6 +94,83 @@ public class DBTestDAO {
 		}
 		return vos;
 	}
-	
-	
+
+	// 개별자료 검색하기
+	public DBTestVO search(String name) {
+		try {
+			stmt = conn.createStatement();
+			sql = "select * from dbtest where name = '"+name+"'";
+			rs = stmt.executeQuery(sql);
+			
+			if(rs.next()) {
+				vo.setIdx(rs.getInt("idx"));
+				vo.setName(rs.getString("name"));
+				vo.setAge(rs.getInt("age"));
+				vo.setGender(rs.getString("gender"));
+				vo.setJoinday(rs.getString("joinday"));
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vo;
+	}
+
+	// 자료 삭제처리하기
+	public int delete(String name) {
+		int res = 0;
+		try {
+			stmt = conn.createStatement();
+			sql = "select * from dbTest where name = '"+name+"'";
+			rs = stmt.executeQuery(sql);
+			if(rs.next()) {
+				stmtClose();
+				stmt = conn.createStatement();
+				sql = "delete from dbTest where name = '"+name+"'";
+				stmt.executeUpdate(sql);
+				res = 1;
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			stmtClose();
+		}
+		
+		return res;
+	}
+
+	// 회원자료 수정처리...(검색후 수정처리한다.)
+	public DBTestVO UpdateSearch(int idx) {
+		try {
+			stmt = conn.createStatement();
+			sql = "select * from dbTest where idx = "+idx;
+			rs = stmt.executeQuery(sql);
+			if(rs.next()) {
+				vo.setIdx(rs.getInt("idx"));
+				vo.setName(rs.getString("name"));
+				vo.setAge(rs.getInt("age"));
+				vo.setGender(rs.getString("gender"));
+				vo.setJoinday(rs.getString("joinday"));
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			stmtClose();
+		}
+		return vo;
+	}
+
+	// 실제 자료내용 수정처리하기
+	public void updateProcess(DBTestVO vo) {
+		try {
+			stmt = conn.createStatement();
+			sql = "update dbTest set name='"+vo.getName()+"', age="+vo.getAge()+", gender='"+vo.getGender()+"', joinday='"+vo.getJoinday()+"' where idx = "+vo.getIdx();
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			stmtClose();
+		}
+	}
 }

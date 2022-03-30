@@ -12,7 +12,7 @@ public class DBTestRun {
 		boolean run = true;
 		
 		while(run) {
-			System.out.println("*** 작업선택 ***");
+			System.out.println("\n*** 작업선택 ***");
 			System.out.print("1.자료입력  2.개별조회  3.전체조회  4.수정  5.삭제  6.종료 ==>> ");
 			sel = scanner.nextInt();
 			
