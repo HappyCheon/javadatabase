@@ -22,7 +22,13 @@ public class DBTestRun {
 			switch(sel) {
 				case 1:
 					// 입력처리
-					
+					System.out.print("성명을 입력하세요? "); name = scanner.next();
+					System.out.print("나이를 입력하세요? "); int age = scanner.nextInt();
+					System.out.print("성별을 입력하세요?(1:남자, 2:여자) "); String gender = scanner.next();
+					System.out.print("입사일을 입력하세요?(yyyy-mm-dd) "); String joinday = scanner.next();
+					if(gender.equals("1")) gender = "m";
+					else gender = "f";
+					dbTest.input(name, age, gender, joinday);
 					break;
 				case 2:
 					// 개별자료 검색
@@ -37,7 +43,7 @@ public class DBTestRun {
 					break;
 				case 3:
 					// 전체조회
-					
+					dbTest.list();	// 전체조회 메소드 호출
 					break;
 				case 4:
 					// 수정처리

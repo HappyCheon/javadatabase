@@ -90,4 +90,41 @@ public class DBTest {
 			//System.out.println("DB를 닫았습니다.");
 		} catch (Exception e) {}
 	}
+
+	// 전체 조회 처리
+	public void list() {
+		try {
+			stmt = conn.createStatement();
+			sql = "select * from aaa order by name";
+			rs = stmt.executeQuery(sql);
+			
+			System.out.println("=======================================");
+			System.out.println("성 명\t 나이\t 성별\t 가입일자");
+			System.out.println("---------------------------------------");
+			
+			while(rs.next()) {
+				String gender = "";
+				if(rs.getString("gender").equals("m")) gender = "남자";
+				else gender = "여자";
+				
+				System.out.println(rs.getString("name")+"\t"+rs.getInt("age")+"\t"+gender+"\t"+rs.getString("joinday").substring(0,10));
+			}
+			
+			System.out.println("=======================================");
+		} catch (SQLException e) {
+			System.out.println("SQL오류" + e.getMessage());
+		}
+	}
+
+	// 자료 등록처리
+	public void input(String name, int age, String gender, String joinday) {
+		try {
+			stmt = conn.createStatement();
+			sql = "insert into aaa values ('"+name+"',"+age+",'"+gender+"','"+joinday+"')";
+			stmt.executeUpdate(sql);
+			System.err.println("자료가 등록되었습니다.");
+		} catch (SQLException e) {
+			System.out.println("SQL오류" + e.getMessage());
+		}
+	}
 }
