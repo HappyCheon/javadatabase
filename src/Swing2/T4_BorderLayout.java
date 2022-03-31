@@ -18,6 +18,7 @@ public class T4_BorderLayout extends JFrame {
 		setSize(400, 300);
 		setLocationRelativeTo(null);
 		setResizable(false);
+		// setLayout(new BorderLayout());  // 기본레이아웃이다.
 		
 		btn1 = new JButton("북쪽");
 		btn2 = new JButton("남쪽");
