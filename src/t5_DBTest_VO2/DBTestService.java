@@ -1,4 +1,4 @@
-package t4_DBTest_VO;
+package t5_DBTest_VO2;
 
 import java.util.ArrayList;
 import java.util.Scanner;

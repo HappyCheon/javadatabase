@@ -1,7 +1,8 @@
-package t4_DBTest_VO;
+package t5_DBTest_VO2;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -9,7 +10,8 @@ import java.util.ArrayList;
 
 public class DBTestDAO {
 	Connection conn = null;
-	Statement stmt = null;
+//	Statement stmt = null;
+	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
 	String sql = "";
@@ -38,10 +40,10 @@ public class DBTestDAO {
 		} catch (SQLException e) {}
 	}
 	
-	// statement객체 Close
-	public void stmtClose() {
+	// preparedstatement객체 Close
+	public void pstmtClose() {
 		try {
-			if(stmt != null) stmt.close();
+			if(pstmt != null) pstmt.close();
 		} catch (Exception e) {}
 	}
 	
@@ -50,7 +52,7 @@ public class DBTestDAO {
 		try {
 			if(rs != null) {
 				rs.close();
-				stmtClose();
+				pstmtClose();
 			}
 		} catch (Exception e) {}
 	}
@@ -58,14 +60,21 @@ public class DBTestDAO {
 	// 자료 등록처리하기
 	public void input(DBTestVO vo) {
 		try {
-			stmt = conn.createStatement();
-			sql = "insert into dbtest values (default,'"+vo.getName()+"',"+vo.getAge()+",'"+vo.getGender()+"','"+vo.getJoinday()+"')";
-			stmt.executeUpdate(sql);
+//			stmt = conn.createStatement();
+//			sql = "insert into dbtest values (default,'"+vo.getName()+"',"+vo.getAge()+",'"+vo.getGender()+"','"+vo.getJoinday()+"')";
+//			stmt.executeUpdate(sql);
+			sql = "insert into dbtest values (default,?,?,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getName());
+			pstmt.setInt(2, vo.getAge());
+			pstmt.setString(3, vo.getGender());
+			pstmt.setString(4, vo.getJoinday());
+			pstmt.executeUpdate();
 			System.out.println(vo.getName() + " 님 자료가 등록되었습니다.");
 		} catch (SQLException e) {
 			System.out.println("SQL 오류 : " + e.getMessage());
 		} finally {
-			stmtClose();
+			pstmtClose();
 		}
 	}
 
@@ -73,9 +82,9 @@ public class DBTestDAO {
 	public ArrayList<DBTestVO> list() {
 		ArrayList<DBTestVO> vos = new ArrayList<DBTestVO>();
 		try {
-			stmt = conn.createStatement();
 			sql = "select * from dbtest order by idx desc";
-			rs = stmt.executeQuery(sql);
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				DBTestVO vo = new DBTestVO();
@@ -99,9 +108,10 @@ public class DBTestDAO {
 	public DBTestVO search(String name) {
 		vo = new DBTestVO();
 		try {
-			stmt = conn.createStatement();
-			sql = "select * from dbtest where name = '"+name+"'";
-			rs = stmt.executeQuery(sql);
+			sql = "select * from dbtest where name = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
 				vo.setIdx(rs.getInt("idx"));
@@ -122,20 +132,22 @@ public class DBTestDAO {
 	public int delete(String name) {
 		int res = 0;
 		try {
-			stmt = conn.createStatement();
-			sql = "select * from dbTest where name = '"+name+"'";
-			rs = stmt.executeQuery(sql);
+			sql = "select * from dbTest where name = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			rs = pstmt.executeQuery();
 			if(rs.next()) {
-				stmtClose();
-				stmt = conn.createStatement();
-				sql = "delete from dbTest where name = '"+name+"'";
-				stmt.executeUpdate(sql);
+				pstmtClose();
+				sql = "delete from dbTest where name = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, name);
+				pstmt.executeUpdate();
 				res = 1;
 			}
 		} catch (SQLException e) {
 			System.out.println("SQL 오류 : " + e.getMessage());
 		} finally {
-			stmtClose();
+			pstmtClose();
 		}
 		
 		return res;
@@ -145,9 +157,10 @@ public class DBTestDAO {
 	public DBTestVO UpdateSearch(int idx) {
 		vo = new DBTestVO();
 		try {
-			stmt = conn.createStatement();
-			sql = "select * from dbTest where idx = "+idx;
-			rs = stmt.executeQuery(sql);
+			sql = "select * from dbTest where idx = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				vo.setIdx(rs.getInt("idx"));
 				vo.setName(rs.getString("name"));
@@ -158,7 +171,7 @@ public class DBTestDAO {
 		} catch (SQLException e) {
 			System.out.println("SQL 오류 : " + e.getMessage());
 		} finally {
-			stmtClose();
+			pstmtClose();
 		}
 		return vo;
 	}
@@ -166,13 +179,18 @@ public class DBTestDAO {
 	// 실제 자료내용 수정처리하기
 	public void updateProcess(DBTestVO vo) {
 		try {
-			stmt = conn.createStatement();
-			sql = "update dbTest set name='"+vo.getName()+"', age="+vo.getAge()+", gender='"+vo.getGender()+"', joinday='"+vo.getJoinday()+"' where idx = "+vo.getIdx();
-			stmt.executeUpdate(sql);
+			sql = "update dbTest set name=?, age=?, gender=?, joinday=? where idx = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getName());
+			pstmt.setInt(2, vo.getAge());
+			pstmt.setString(3, vo.getGender());
+			pstmt.setString(4, vo.getJoinday());
+			pstmt.setInt(5, vo.getIdx());
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("SQL 오류 : " + e.getMessage());
 		} finally {
-			stmtClose();
+			pstmtClose();
 		}
 	}
 }
