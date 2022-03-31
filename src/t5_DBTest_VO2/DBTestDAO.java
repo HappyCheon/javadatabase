@@ -137,7 +137,8 @@ public class DBTestDAO {
 			pstmt.setString(1, name);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
-				pstmtClose();
+				//pstmtClose();
+				rsClose();
 				sql = "delete from dbTest where name = ?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, name);
@@ -171,7 +172,7 @@ public class DBTestDAO {
 		} catch (SQLException e) {
 			System.out.println("SQL 오류 : " + e.getMessage());
 		} finally {
-			pstmtClose();
+			rsClose();
 		}
 		return vo;
 	}
