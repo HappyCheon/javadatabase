@@ -87,42 +87,59 @@ public class Test2 {
 		JPanel panel = new JPanel();
 		panel.setBounds(417, 108, 228, 438);
 		frame.getContentPane().add(panel);
-		panel.setLayout(null);
 		
 		JRadioButton radio1_1 = new JRadioButton("택 시");
 		buttonGroup.add(radio1_1);
 		radio1_1.setFont(new Font("굴림", Font.PLAIN, 20));
-		radio1_1.setBounds(22, 42, 121, 23);
-		panel.add(radio1_1);
 		
 		JRadioButton radio1_2 = new JRadioButton("버 스");
 		buttonGroup.add(radio1_2);
 		radio1_2.setFont(new Font("굴림", Font.PLAIN, 20));
-		radio1_2.setBounds(22, 107, 121, 23);
-		panel.add(radio1_2);
 		
 		JRadioButton radio1_3 = new JRadioButton("기 차");
 		buttonGroup.add(radio1_3);
 		radio1_3.setFont(new Font("굴림", Font.PLAIN, 20));
-		radio1_3.setBounds(22, 172, 121, 23);
-		panel.add(radio1_3);
 		
 		JRadioButton radio1_3_1 = new JRadioButton("자전거");
 		buttonGroup.add(radio1_3_1);
 		radio1_3_1.setFont(new Font("굴림", Font.PLAIN, 20));
-		radio1_3_1.setBounds(22, 237, 121, 23);
-		panel.add(radio1_3_1);
 		
 		JRadioButton radio1_3_1_1 = new JRadioButton("도 보");
 		buttonGroup.add(radio1_3_1_1);
 		radio1_3_1_1.setFont(new Font("굴림", Font.PLAIN, 20));
-		radio1_3_1_1.setBounds(22, 302, 121, 23);
-		panel.add(radio1_3_1_1);
 		
 		JRadioButton radio1 = new JRadioButton("자가용");
 		buttonGroup.add(radio1);
 		radio1.setFont(new Font("굴림", Font.PLAIN, 20));
-		radio1.setBounds(22, 367, 121, 23);
-		panel.add(radio1);
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(22)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(radio1_1, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
+						.addComponent(radio1_2, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
+						.addComponent(radio1_3, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
+						.addComponent(radio1_3_1, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
+						.addComponent(radio1_3_1_1, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
+						.addComponent(radio1, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(42)
+					.addComponent(radio1_1, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+					.addGap(42)
+					.addComponent(radio1_2, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+					.addGap(42)
+					.addComponent(radio1_3, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+					.addGap(42)
+					.addComponent(radio1_3_1, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+					.addGap(42)
+					.addComponent(radio1_3_1_1, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+					.addGap(42)
+					.addComponent(radio1, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
+		);
+		panel.setLayout(gl_panel);
 	}
 }
