@@ -122,6 +122,39 @@ public class DBTest2DAO {
 		}
 		return vo;
 	}
+
+	// 조건검색하기
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Vector getSearch(String comboStr, String txtStr) {
+		Vector vData = new Vector();
+		try {
+			sql = "select * from dbtest where "+comboStr+" like ? order by idx desc";
+			pstmt = conn.prepareStatement(sql);
+			if(!comboStr.equals("age")) {
+				pstmt.setString(1, "%"+txtStr+"%");
+			}
+			else {
+				pstmt.setInt(1, Integer.parseInt(txtStr));
+			}
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				Vector vo = new Vector();
+				vo.add(rs.getInt("idx"));
+				vo.add(rs.getString("name"));
+				vo.add(rs.getInt("age"));
+				vo.add(rs.getString("gender"));
+				vo.add(rs.getString("joinday"));
+				
+				vData.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL 에러 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vData;
+	}
 	
 	
 }

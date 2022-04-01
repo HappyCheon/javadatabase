@@ -82,6 +82,13 @@ public class DBTest2Main extends JFrame {
 			}
 		});
 		
+		// 전체조회
+		btnList.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new DBTest2List();
+			}
+		});
+		
 		// 종료버튼 클릭
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
