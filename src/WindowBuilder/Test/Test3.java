@@ -25,6 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 public class Test3 extends JFrame {
 	private JTextField txtMid;
@@ -138,6 +139,7 @@ public class Test3 extends JFrame {
 		panel.add(scrollPane);
 		
 		JList list = new JList();
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setModel(new AbstractListModel() {
 			String[] values = new String[] {"학생", "회사원", "공무원", "가사", "변호사", "의사", "군인", "자영업", "운수업", "기타"};
 			public int getSize() {
@@ -150,7 +152,7 @@ public class Test3 extends JFrame {
 		scrollPane.setViewportView(list);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(172, 57, 136, 149);
+		scrollPane_1.setBounds(172, 79, 136, 127);
 		panel.add(scrollPane_1);
 		
 		JTextArea txtaContent = new JTextArea();
@@ -158,8 +160,13 @@ public class Test3 extends JFrame {
 		
 		JButton btnJob2 = new JButton("직업출력2");
 		btnJob2.setFont(new Font("굴림", Font.PLAIN, 16));
-		btnJob2.setBounds(172, 25, 136, 29);
+		btnJob2.setBounds(172, 10, 136, 29);
 		panel.add(btnJob2);
+		
+		JButton btnJob2_1 = new JButton("직업출력3");
+		btnJob2_1.setFont(new Font("굴림", Font.PLAIN, 16));
+		btnJob2_1.setBounds(172, 40, 136, 29);
+		panel.add(btnJob2_1);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(318, 145, 266, 216);
@@ -284,6 +291,13 @@ public class Test3 extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				//txtaContent.setText(comboJob.getSelectedItem().toString());
 				txtaContent.append(comboJob.getSelectedItem().toString()+"\n");
+			}
+		});
+		
+		// 리스트박스의 내용 가져오기.
+		btnJob2_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtaContent.append(list.getSelectedValue().toString()+"\n");
 			}
 		});
 		
