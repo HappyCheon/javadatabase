@@ -1,4 +1,4 @@
-package WindowBuilder.Test;
+package WindowBuilder.Test2;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,17 +7,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
-public class Test3DAO {
+public class DBTest2DAO {
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
 	String sql = "";
 	
-	DBTest3VO vo = null;
+	DBTest2VO vo = null;
 	
 	// 처음 DAO생성시에 Database 연결한다.
-	public Test3DAO() {
+	public DBTest2DAO() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			String url = "jdbc:mysql://localhost:3306/javagreen";

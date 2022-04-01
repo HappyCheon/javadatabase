@@ -7,11 +7,13 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
@@ -28,8 +30,9 @@ public class Test3 extends JFrame {
 	private JTextField txtMid;
 	private JPasswordField txtPwd;
 	private final ButtonGroup btnGroupGender = new ButtonGroup();
-	private JTable table;
+	private JTable tblContent;
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Test3() {
 		super("컴포넌트 연습");
 		setSize(600, 589);
@@ -208,19 +211,38 @@ public class Test3 extends JFrame {
 		  2. JScrollPane을 패널의 크기에 맞게 그린다.
 		  3. JTable을 JScrollPane의 ViewPort에 클릭해 준다.
 		  4. 데이터베이스에 연결을 위해 DefaultTableModel객체를 준비해준다.
-		     DefaultTableModel객체는 Vector형식의 자료를 사용한다. 따라서 제목과 내용물을 모두 벡터로 준비시켜준다.
+		     DefaultTableModel객체는 Vector형식의 자료를 사용한다. 따라서 '제목'과 '내용물'을 모두 벡터로 준비시켜준다.
 		  5. 준비된 Vector형식의 자료를 DefaultTableModel객체에 올린다.
 		  6. DefaultTableModel객체를 JTable에 올려준다.
 		  7. JTable을 JScrollPane에 올려준다.
-		  8. JScrollPane을 패널에 올려준다.
+		  8. JScrollPane을 '패널'에 올려준다.
 		*/
 		
-		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(0, 0, 584, 191);
-		panel_2.add(scrollPane_2);
+		// 타이틀을 벡터로 처리해둔다.
+		Vector title = new Vector();
+		title.add("번호");
+		title.add("성명");
+		title.add("나이");
+		title.add("성별");
+		title.add("입사일");
 		
-		table = new JTable();
-		scrollPane_2.setViewportView(table);
+		// 데이터로 벡터로 준비해둔다.
+		Test3DAO dao = new Test3DAO();
+		Vector vData = dao.getList();
+		//System.out.println("vData : " + vData);
+		
+		// DefaultTableModel에 준비한 벡터 자료를 담는다.
+		DefaultTableModel defaultTableModel = new DefaultTableModel(vData, title);  // (데이터,타이틀)
+		
+		// DefaultTableModel를 JTable에 올린다.
+		tblContent = new JTable(defaultTableModel);
+		
+		// JTable을 JScrollPane에 올려준다.
+		JScrollPane spContent = new JScrollPane(tblContent);
+		spContent.setBounds(0, 0, 584, 191);
+		
+		// JScrollPane을 Panel에 올려준다.
+		panel_2.add(spContent);
 		
 		setVisible(true);
 		
