@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 
-public class DBTestInput extends JFrame {
+public class DBTest2Input extends JFrame {
 	private JTextField txtName;
 	private JTextField txtAge;
 	private final ButtonGroup btnGroupGender = new ButtonGroup();
@@ -25,7 +25,7 @@ public class DBTestInput extends JFrame {
 	DBTest2DAO dao = new DBTest2DAO();
 	DBTest2VO vo = new DBTest2VO();
 
-	public DBTestInput() {
+	public DBTest2Input() {
 		super("컴포넌트 연습");
 		setSize(600, 480);
 		setLocationRelativeTo(null);
@@ -209,6 +209,6 @@ public class DBTestInput extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		new DBTestInput();
+		new DBTest2Input();
 	}
 }

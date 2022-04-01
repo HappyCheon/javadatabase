@@ -98,6 +98,30 @@ public class DBTest2DAO {
 			pstmtClose();
 		}
 	}
+
+	// 개별자료 검색처리
+	public DBTest2VO getSearch(int idx) {
+		DBTest2VO vo = new DBTest2VO();
+		try {
+			sql = "select * from dbtest where idx = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				vo.setIdx(idx);
+				vo.setName(rs.getString("name"));
+				vo.setAge(rs.getInt("age"));
+				vo.setGender(rs.getString("gender"));
+				vo.setJoinday(rs.getString("joinday"));
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL 에러 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vo;
+	}
 	
 	
 }

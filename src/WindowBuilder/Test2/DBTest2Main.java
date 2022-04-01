@@ -71,7 +71,14 @@ public class DBTest2Main extends JFrame {
 		// 회원등록
 		btnInput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new DBTestInput();
+				new DBTest2Input();
+			}
+		});
+		
+		// 개별조회
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new DBTest2Search();
 			}
 		});
 		
