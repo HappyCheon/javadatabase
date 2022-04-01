@@ -76,8 +76,27 @@ public class DBTest2DAO {
 			}
 		} catch (SQLException e) {
 			System.out.println("SQL 에러 : " + e.getMessage());
+		} finally {
+			rsClose();
 		}
 		return vData;
+	}
+
+	// 회원가입시키기
+	public void DBTestInput(DBTest2VO vo) {
+		try {
+			sql = "insert into dbtest value (default,?,?,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getName());
+			pstmt.setInt(2, vo.getAge());
+			pstmt.setString(3, vo.getGender());
+			pstmt.setString(4, vo.getJoinday());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("SQL 에러 : " + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
 	}
 	
 	
