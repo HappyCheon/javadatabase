@@ -7,7 +7,7 @@ select * from dbtest;
 
 
 
-
+select distinct gender from dbtest;
 
 
 /*

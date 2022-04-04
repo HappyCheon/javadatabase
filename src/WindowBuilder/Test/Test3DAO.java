@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class Test3DAO {
@@ -78,6 +79,25 @@ public class Test3DAO {
 			System.out.println("SQL 에러 : " + e.getMessage());
 		}
 		return vData;
+	}
+
+	// 성별만 담아오기
+	public ArrayList<String> getGender() {
+		ArrayList<String> vDataGender = new ArrayList<String>();
+		try {
+			sql = "select distinct gender from dbtest";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				vDataGender.add(rs.getString("gender"));
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL에러 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vDataGender;
 	}
 	
 	

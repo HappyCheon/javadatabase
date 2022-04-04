@@ -1,31 +1,34 @@
 package WindowBuilder.Test;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JButton;
 import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.util.Vector;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JList;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Vector;
+
 import javax.swing.AbstractListModel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 public class Test3 extends JFrame {
 	private JTextField txtMid;
@@ -33,6 +36,8 @@ public class Test3 extends JFrame {
 	private final ButtonGroup btnGroupGender = new ButtonGroup();
 	private JTable tblContent;
 
+	Test3DAO dao = new Test3DAO();
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Test3() {
 		super("컴포넌트 연습");
@@ -175,17 +180,17 @@ public class Test3 extends JFrame {
 		
 		JCheckBox chkCard1 = new JCheckBox("국민카드");
 		chkCard1.setFont(new Font("굴림", Font.PLAIN, 16));
-		chkCard1.setBounds(19, 17, 105, 33);
+		chkCard1.setBounds(19, 58, 105, 33);
 		panel_1.add(chkCard1);
 		
 		JCheckBox chkCard2 = new JCheckBox("농협카드");
 		chkCard2.setFont(new Font("굴림", Font.PLAIN, 16));
-		chkCard2.setBounds(139, 17, 105, 33);
+		chkCard2.setBounds(139, 58, 105, 33);
 		panel_1.add(chkCard2);
 		
 		JCheckBox chkCard3 = new JCheckBox("삼성카드");
 		chkCard3.setFont(new Font("굴림", Font.PLAIN, 16));
-		chkCard3.setBounds(19, 69, 105, 33);
+		chkCard3.setBounds(19, 93, 105, 33);
 		panel_1.add(chkCard3);
 		
 		JCheckBox chkCard5 = new JCheckBox("신한카드");
@@ -195,7 +200,7 @@ public class Test3 extends JFrame {
 		
 		JCheckBox chkCard4 = new JCheckBox("LG카드");
 		chkCard4.setFont(new Font("굴림", Font.PLAIN, 16));
-		chkCard4.setBounds(139, 69, 105, 33);
+		chkCard4.setBounds(139, 93, 105, 33);
 		panel_1.add(chkCard4);
 		
 		JCheckBox chkCard6 = new JCheckBox("체크카드");
@@ -207,6 +212,17 @@ public class Test3 extends JFrame {
 		btnCard.setFont(new Font("굴림", Font.PLAIN, 16));
 		btnCard.setBounds(19, 173, 212, 33);
 		panel_1.add(btnCard);
+		
+		// 성별을 Vector에 담아서 comboGender콤보상사에 뿌린다.(남/여)
+		ArrayList<String> vDataGender = dao.getGender();
+		
+		JComboBox comboGender = new JComboBox();
+		comboGender.setFont(new Font("굴림", Font.PLAIN, 16));
+		comboGender.setBounds(19, 10, 212, 33);
+		for(int i=0; i<vDataGender.size(); i++) {
+			comboGender.addItem(vDataGender.get(i));
+		}
+		panel_1.add(comboGender);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(0, 359, 584, 191);
@@ -244,12 +260,28 @@ public class Test3 extends JFrame {
 		// DefaultTableModel를 JTable에 올린다.
 		tblContent = new JTable(defaultTableModel);
 		
+		// 아래로 JTable의 열크기 조절하기
+		//tblContent.getColumnModel().getColumn(0).setWidth(50);;  // JTable열크기 조정하기
+		tblContent.getColumnModel().getColumn(0).setMaxWidth(50);;  // JTable열크기 조정하기
+		//tblContent.getColumnModel().getColumn(1).setMaxWidth(70);
+		tblContent.getColumnModel().getColumn(2).setMaxWidth(50);
+		tblContent.getColumnModel().getColumn(3).setMaxWidth(60);
+		
+		// JTable의 열안에서의 정렬
+		DefaultTableCellRenderer render = new DefaultTableCellRenderer();
+		render.setHorizontalAlignment(SwingConstants.CENTER);
+		TableColumnModel tm = tblContent.getColumnModel();
+		for(int i=0; i<tm.getColumnCount(); i++) {
+			tm.getColumn(i).setCellRenderer(render);
+		}
+		
 		// JTable을 JScrollPane에 올려준다.
 		JScrollPane spContent = new JScrollPane(tblContent);
 		spContent.setBounds(0, 0, 584, 191);
 		
 		// JScrollPane을 Panel에 올려준다.
 		panel_2.add(spContent);
+		
 		
 		setVisible(true);
 		
