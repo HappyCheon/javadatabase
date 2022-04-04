@@ -14,6 +14,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 
@@ -21,6 +23,9 @@ public class DBTest2Input extends JFrame {
 	private JTextField txtName;
 	private JTextField txtAge;
 	private final ButtonGroup btnGroupGender = new ButtonGroup();
+	
+	JComboBox comboY, comboM, comboD;
+	JRadioButton radioMale, radioFemale;
 	
 	DBTest2DAO dao = new DBTest2DAO();
 	DBTest2VO vo = new DBTest2VO();
@@ -82,18 +87,18 @@ public class DBTest2Input extends JFrame {
 		txtAge.setBounds(226, 191, 254, 28);
 		panel.add(txtAge);
 		
-		JRadioButton radioMale = new JRadioButton("남 자");
+		radioMale = new JRadioButton("남 자");
 		radioMale.setSelected(true);
 		btnGroupGender.add(radioMale);
 		radioMale.setFont(new Font("굴림", Font.PLAIN, 16));
 		radioMale.setBounds(239, 246, 76, 24);
 		panel.add(radioMale);
 		
-		JRadioButton radioMale_1 = new JRadioButton("여 자");
-		btnGroupGender.add(radioMale_1);
-		radioMale_1.setFont(new Font("굴림", Font.PLAIN, 16));
-		radioMale_1.setBounds(346, 244, 76, 24);
-		panel.add(radioMale_1);
+		radioFemale = new JRadioButton("여 자");
+		btnGroupGender.add(radioFemale);
+		radioFemale.setFont(new Font("굴림", Font.PLAIN, 16));
+		radioFemale.setBounds(346, 244, 76, 24);
+		panel.add(radioFemale);
 		
 		String[] yy = new String[30];
 		String[] mm = new String[12];
@@ -111,17 +116,17 @@ public class DBTest2Input extends JFrame {
 			dd[i] = (i+1) + "";
 		}
 		
-		JComboBox comboY = new JComboBox(yy);
+		comboY = new JComboBox(yy);
 		comboY.setFont(new Font("굴림", Font.PLAIN, 16));
 		comboY.setBounds(226, 299, 76, 28);
 		panel.add(comboY);
 		
-		JComboBox comboM = new JComboBox(mm);
+		comboM = new JComboBox(mm);
 		comboM.setFont(new Font("굴림", Font.PLAIN, 16));
 		comboM.setBounds(346, 299, 76, 28);
 		panel.add(comboM);
 		
-		JComboBox comboD = new JComboBox(dd);
+		comboD = new JComboBox(dd);
 		comboD.setFont(new Font("굴림", Font.PLAIN, 16));
 		comboD.setBounds(458, 299, 76, 28);
 		panel.add(comboD);
@@ -136,10 +141,10 @@ public class DBTest2Input extends JFrame {
 		btnInput_1.setBounds(223, 362, 137, 41);
 		panel.add(btnInput_1);
 		
-		JButton btnInput_1_1 = new JButton("창닫기");
-		btnInput_1_1.setFont(new Font("굴림", Font.PLAIN, 16));
-		btnInput_1_1.setBounds(403, 362, 137, 41);
-		panel.add(btnInput_1_1);
+		JButton btnExit = new JButton("창닫기");
+		btnExit.setFont(new Font("굴림", Font.PLAIN, 16));
+		btnExit.setBounds(403, 362, 137, 41);
+		panel.add(btnExit);
 		
 		
 		setVisible(true);
@@ -149,43 +154,15 @@ public class DBTest2Input extends JFrame {
 		// 가입하기
 		btnInput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String name = txtName.getText();
-				String age = txtAge.getText();
-				String gender;
-				String joinday = comboY.getSelectedItem()+"-"+comboM.getSelectedItem()+"-"+comboD.getSelectedItem();
-				
-				if(name.trim().equals("")) {
-					JOptionPane.showMessageDialog(null, "성명을 입력하세요");
-					txtName.requestFocus();
-				}
-				else if(age.trim().equals("")) {
-					JOptionPane.showMessageDialog(null, "나이를 입력하세요");
-					txtAge.requestFocus();
-				}
-				else {
-					if(!Pattern.matches("^[0-9]*$", age)) {
-						JOptionPane.showMessageDialog(null, "나이는 숫자로 입력하세요");
-						txtAge.requestFocus();
-					}
-					else {
-						if(radioMale.isSelected()) gender = "남자";
-						else gender = "여자";
-						
-						//  가입처리(DB처리)
-						vo.setName(name);
-						vo.setAge(Integer.parseInt(age));
-						vo.setGender(gender);
-						vo.setJoinday(joinday);
-						
-						dao.DBTestInput(vo);
-						JOptionPane.showMessageDialog(null, "회원 가입 되었습니다.");
-						
-						// 다음자료 준비....
-						txtName.setText("");
-						txtAge.setText("");
-						txtName.requestFocus();
-					}
-				}
+				inputMethod();
+			}
+		});
+		
+		// 가입하기 버튼을 엔터키로 쳤을때 수행하기...
+		btnInput.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) inputMethod();
 			}
 		});
 		
@@ -199,13 +176,62 @@ public class DBTest2Input extends JFrame {
 		});
 		
 		// 창닫기
-		btnInput_1_1.addActionListener(new ActionListener() {
+		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//System.exit(0);
 				dispose();
 			}
 		});
 		
+		// 창닫기버튼 엔터키로 누를때처리..
+		btnExit.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) dispose();
+			}
+		});
+		
+		
+	}
+	// 가입하기 메소드
+	void inputMethod() {
+		String name = txtName.getText();
+		String age = txtAge.getText();
+		String gender;
+		String joinday = comboY.getSelectedItem()+"-"+comboM.getSelectedItem()+"-"+comboD.getSelectedItem();
+		
+		if(name.trim().equals("")) {
+			JOptionPane.showMessageDialog(null, "성명을 입력하세요");
+			txtName.requestFocus();
+		}
+		else if(age.trim().equals("")) {
+			JOptionPane.showMessageDialog(null, "나이를 입력하세요");
+			txtAge.requestFocus();
+		}
+		else {
+			if(!Pattern.matches("^[0-9]*$", age)) {
+				JOptionPane.showMessageDialog(null, "나이는 숫자로 입력하세요");
+				txtAge.requestFocus();
+			}
+			else {
+				if(radioMale.isSelected()) gender = "남자";
+				else gender = "여자";
+				
+				//  가입처리(DB처리)
+				vo.setName(name);
+				vo.setAge(Integer.parseInt(age));
+				vo.setGender(gender);
+				vo.setJoinday(joinday);
+				
+				dao.DBTestInput(vo);
+				JOptionPane.showMessageDialog(null, "회원 가입 되었습니다.");
+				
+				// 다음자료 준비....
+				txtName.setText("");
+				txtAge.setText("");
+				txtName.requestFocus();
+			}
+		}
 	}
 	
 	public static void main(String[] args) {
