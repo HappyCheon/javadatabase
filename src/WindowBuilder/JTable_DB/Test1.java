@@ -3,6 +3,7 @@ package WindowBuilder.JTable_DB;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.ImageIcon;
@@ -77,7 +78,10 @@ public class Test1 extends JFrame {
 		pn2.setLayout(null);
 		
 		JLabel lbl2 = new JLabel("New label");
-		lbl2.setIcon(new ImageIcon("D:\\JavaGreen\\html5_css3_javascript\\images\\2.jpg"));
+		//lbl2.setIcon(new ImageIcon("D:\\JavaGreen\\html5_css3_javascript\\images\\2.jpg"));
+		URL imgUrl = this.getClass().getClassLoader().getResource("2.jpg");
+		lbl2.setIcon(new ImageIcon(imgUrl));
+		
 		lbl2.setBounds(12, 10, 159, 324);
 		pn2.add(lbl2);
 		pn2.setVisible(false);
